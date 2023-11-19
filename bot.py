@@ -18,15 +18,15 @@ def function_name(message: telebot.types.Message):
     text = '💰 Доступные валюты: \n'
     for i in keys:
         text = '\n▶️ '.join((text, i))
-    bot.send_message(message.chat.id, f'{text} \n\n❇️ Введите значения - '
-                                      f'[валюта] -> [в какую валюту конвертировать] -> [колличество]\n')
+    bot.send_message(message.chat.id, f'{text} \n\n❇️ Введите значения через запятую- '
+                                      f'валюта, в какую валюту конвертировать, колличество\n')
 
 
 @bot.message_handler(content_types=['text'])
 def conv(message: telebot.types.Message):
     try:
 
-        inp = message.text.lower().split(' ')
+        inp = message.text.lower().split(', ')
 
         if len(inp) != 3:
             raise APIException('Проверьте параметры! ')
@@ -40,6 +40,7 @@ def conv(message: telebot.types.Message):
     except Exception as e:
         bot.send_message(message.chat.id, f'Не удалось обработать!\n{e}')
     else:
+
         text = f'Цена {amount} {base} в {quote} - {j} {quote}'
         bot.send_message(message.chat.id, text)
 
